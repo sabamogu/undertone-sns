@@ -1,5 +1,26 @@
 @import 'tailwindcss';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @layer base {
+  h1, h2, .font-montserrat {
+    font-family: 'Bebas Neue', sans-serif;
+}} */
+
+@layer base {
+  h1, h2, .font-bebas {
+    font-family: 'Bebas Neue', sans-serif;
+  }
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
