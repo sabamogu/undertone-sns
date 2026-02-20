@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>バンド登録 - UnderTone</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-900 text-gray-100 p-6">
+@extends('layouts.app')@section('content')
     <div class="max-w-xl mx-auto">
         <a href="{{ route('bands.index') }}" class="text-gray-400 hover:underline">← 戻る</a>
         
@@ -26,7 +19,14 @@
             <div class="grid grid-cols-2 gap-8">
                 <div>
                     <label class="block text-sm font-medium mb-2">ジャンル</label>
-                    <input type="text" name="genre" value="{{ $band->genre }}" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" placeholder="例: Rock">
+                    <select name="genre" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none">
+                        <option value="">選択してください</option>
+                        @foreach(\App\Models\Band::$genres as $value => $label)
+                            <option value="{{ $value }}" {{ $band->genre == $value ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-2">活動地域</label>
@@ -61,5 +61,4 @@
             </div>
         </form>
     </div>
-</body>
-</html>
+@endsection

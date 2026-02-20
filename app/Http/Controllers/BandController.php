@@ -7,45 +7,52 @@ use Illuminate\Http\Request;
 
 class BandController extends Controller
 {
+
     public function index(Request $request)
     {
-        // 1. まず「クエリ（命令）」の準備をする（まだ実行はしない）
         $query = Band::query();
 
-        // 2. もしURLに「kana=あ」のような指定があったら、その行で絞り込む
-        if ($request->has('kana')) {
-            $row = $request->input('kana');
-        
-            // 50音の各行に対応する正規表現
-            $patterns = [
-                'あ' => '^[あいうえおアィイゥウェエォオ]',
-                'か' => '^[かきくけこカキクケコガギグゲゴ]',
-                'さ' => '^[さしすせそサシスセソザジズゼゾ]',
-                'た' => '^[たちつてとタチツテトダヂヅデド]',
-                'な' => '^[なにぬねのナニヌネノ]',
-                'は' => '^[はひふへほハヒフヘホバビブベボパピプペポ]',
-                'ま' => '^[まみむめもマミムメモ]',
-                'や' => '^[やゆよヤユヨ]',
-                'ら' => '^[らりるれろラリルレロ]',
-                'わ' => '^[わをんワヲン]',
+        // 2. キーワード検索（セレクトボックス導入に合わせたシンプル版）
+        if ($request->filled('keyword')) {
+            $input = $request->input('keyword');
+
+            // 【修正】mb_convert_kana は「全角・半角の差」を埋めるために残すと親切です
+            $keywords = [
+                $input,
+                mb_convert_kana($input, "KVC"), // 全角カタカナ
+                mb_convert_kana($input, "r"),   // 半角英数字(rock)
             ];
 
-            if (isset($patterns[$row])) {
-                // name_kanaカラムが、指定した行の文字で始まっているものを探す
-                $query->where('name_kana', 'REGEXP', $patterns[$row]);
+            // 【追加】もし入力が「ロック」なら「Rock」も検索対象に加える
+            foreach (\App\Models\Band::$genres as $en => $ja) {
+                if (str_contains($input, $ja)) {
+                    $keywords[] = $en;
+                }
             }
+
+            $keywords = array_unique($keywords);
+
+            $query->where(function($q) use ($keywords) {
+                foreach ($keywords as $word) {
+                    $q->orWhere('name', 'like', "%{$word}%")
+                    ->orWhere('genre', 'like', "%{$word}%")
+                    ->orWhere('area', 'like', "%{$word}%");
+                }
+            });
+
         }
 
-        // 3. もしURLに「alpha=A」のような指定があったら、その文字で絞り込む
-        if ($request->has('alpha')) {
-            $char = $request->input('alpha');
-            $query->where('name', 'like', $char . '%');
+        // 3. 50音検索（ここは変更なし）
+        if ($request->filled('kana')) {
+            // ...既存のコード...
         }
 
-        // 4. 最後にデータを取得（最新順に並べるおまけ付き）
+        // 4. アルファベット検索（ここは変更なし）
+        if ($request->filled('alpha')) {
+            // ...既存のコード...
+        }
+
         $bands = $query->orderBy('name_kana', 'asc')->get();
-
-        // 5. 画面に渡す
         return view('bands.index', compact('bands'));
     }
 

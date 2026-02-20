@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ $band->name }} - UnderTone</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-900 text-gray-100 p-6">
+@extends('layouts.app')@section('content')
     <div class="max-w-2xl mx-auto">
         <a href="{{ url('/bands') }}" class="text-indigo-400 hover:underline">← 一覧に戻る</a>
 
@@ -83,6 +76,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
-
+@endsection

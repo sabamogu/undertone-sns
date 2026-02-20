@@ -21,4 +21,14 @@ class Band extends Model
         'youtube_url',
         'image_path',
     ];
+    // ジャンルのリストを定義（DBに保存する値 => 画面に表示する名前）
+    public static $genres = [
+        'Rock' => 'ロック(Rock)',
+        'Punk' => 'パンク(Punk)',
+        'Jazz' => 'ジャズ(Jazz)',
+        'Pop'  => 'ポップ(Pop)',
+        'Metal' => 'メタル(Metal)',
+        'HipHop' => 'ヒップホップ(HipHop)',
+        'Others' => 'その他(Others)'
+    ];
 }
