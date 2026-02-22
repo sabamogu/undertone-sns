@@ -23,7 +23,7 @@
                 </div>
             @endif
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-4xl font-bold">{{ $band->name }}</h1>
+                <h1 class="mix-blend-defference mt-2 text-4xl font-bold">{{ $band->name }}</h1>
                 <span class="bg-indigo-600 px-3 py-1 rounded-full text-sm">{{ $band->genre }}</span>
             </div>
 
@@ -58,16 +58,25 @@
 
             <div class="mt-10">
                 <p class="text-gray-400 mb-4 font-bold">Featured Video</p>
-                @if($band->youtube_url)
-                    <div class="aspect-video">
-                        <iframe class="w-full h-full rounded-lg shadow-2xl" 
-                            src="https://www.youtube.com/embed/{{ $band->youtube_url }}"
-                            title="YouTube video player" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+    {{-- 配列が空でないか、かつ配列であることを確認 --}}
+            @if(!empty($band->youtube_urls) && is_array($band->youtube_urls))
+                
+                @foreach($band->youtube_urls as $url)
+                    {{-- $url が空でない場合のみ表示 --}}
+                    @if($url)
+                        <div class="aspect-video">
+                            <iframe 
+                                class="w-full h-full rounded-xl shadow-lg" 
+                                src="https://www.youtube.com/embed/{{ $url }}" 
+                                title="YouTube video player" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    @endif
+                @endforeach
                 @else
                     <div class="aspect-video bg-gray-700 rounded-lg flex items-center justify-center border border-gray-600">
                         <p class="text-gray-500 text-sm">動画はまだ登録されていません</p>

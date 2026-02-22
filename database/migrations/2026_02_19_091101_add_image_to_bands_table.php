@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bands', function (Blueprint $table) {
-            $table->string('image_path')->nullable()->after('youtube_url');
+            $table->string('image_path')->nullable()->after('youtube_urls');
         });
     }
 

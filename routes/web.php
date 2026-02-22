@@ -1,29 +1,52 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BandController; // これが必要！
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BandController;
 
-// 「/bands という URL に GET リクエストが来たら、BandController の index メソッドを実行する」一覧画面
+// トップページにアクセスしたら一覧へ
+Route::get('/', function () {
+    return redirect()->route('bands.index');
+});
+
+// --- 【ここから書き戻し】誰でも見れるページ ---
 Route::get('/bands', [BandController::class, 'index'])->name('bands.index');
 
-// 登録画面（showより上に書く）
-Route::get('/bands/create', [BandController::class, 'create'])->name('bands.create');
+// お問い合わせ（バリデーション入り）
+Route::post('/contact', function (Illuminate\Http\Request $request) {
+    $request->validate([
+        'name'    => 'required|max:50',
+        'email'   => 'required|email|max:255',
+        'message' => 'required|min:10|max:2000',
+    ]);
+    return back()->with('status', '（デモ用）お問い合わせを送信しました！');
+})->name('contact.send');
+// --- 【ここまで】 ---
 
-// 保存処理 データを保存する道（POSTメソッドを使うのがポイント！）
-Route::post('/bands', [BandController::class, 'store'])->name('bands.store');
+// ダッシュボード（Breeze標準）
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-//詳細画面（一番下）
-Route::get('/bands/{id}', [BandController::class, 'show'])->name('bands.show');
+// ログインしている人だけが使える機能（認証グループ）
+Route::middleware('auth')->group(function () {
+    // Breeze標準のプロフィール編集
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-// 編集画面を表示する道
-Route::get('/bands/{id}/edit', [BandController::class, 'edit'])->name('bands.edit');
+    // --- 【ここから書き戻し】バンドの登録・編集・削除 ---
+    Route::get('/bands/create', [BandController::class, 'create'])->name('bands.create');
+    Route::post('/bands', [BandController::class, 'store'])->name('bands.store');
+    Route::get('/bands/{id}/edit', [BandController::class, 'edit'])->name('bands.edit');
+    Route::put('/bands/{band}', [BandController::class, 'update'])->name('bands.update');
+    Route::delete('/bands/{id}', [BandController::class, 'destroy'])->name('bands.destroy');
+    // --- 【ここまで】 ---
 
-// データを更新する道（PUTまたはPATCHメソッドを使うのが一般的です）
-Route::put('/bands/{id}', [BandController::class, 'update'])->name('bands.update');
+    // ---誰でも見れるページ ---
+    Route::get('/bands/{band}', [BandController::class, 'show'])->name('bands.show');
+});
 
-// データを削除する道（DELETEメソッドを使います）
-Route::delete('/bands/{id}', [BandController::class, 'destroy'])->name('bands.destroy');
+require __DIR__.'/auth.php';
 
-// Route::get('/', function () {
-    // return view('welcome');
-// });
+?>

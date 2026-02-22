@@ -11,7 +11,7 @@
                 About Under Tone
             </h2>
             <p class="text-gray-300 leading-relaxed text-sm md:text-base">
-                ～「誰も知らない」から「誰もが知ってる」へ～
+                ～「誰も知らない」から「誰もが知ってる」へ～<br>
                 UnderTone（アンダートーン）は、まだ見ぬ熱狂を探すための「インディーズバンド特化型」<br>
                 データベースです。 「もっと色んなバンドを知りたい！聴きたい！」サイト主のそんな想いから<br>
                 生まれました。すべての音楽ファンのために、全国のバンド情報を集約し、共有することを目指しています。
@@ -24,9 +24,11 @@
         </div>
 
         <div class="mt-6">
-            <a href="{{ route('bands.create') }}" class="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-6 rounded-full transition shadow-lg">
-                + 新しいバンドを登録する
-            </a>
+        @auth
+            <a href="{{ route('bands.create') }}" class="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-6 rounded-full transition shadow-lg">+ 新しいバンドを登録する</a>
+        @else
+            <a href="{{ route('login') }}" class="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-6 rounded-full transition shadow-lg">+ 新規登録（ログインが必要です）</a>
+        @endauth
         </div>
     </header>
 
@@ -35,23 +37,31 @@
             <p class="text-sm text-gray-400 mb-4 font-semibold">50音・アルファベットで探す</p>
             <div class="flex flex-wrap gap-2 mb-4">
                 @foreach(['あ', 'か', 'さ', 'た', 'な', 'は', 'ま', 'や', 'ら', 'わ'] as $row)
-                    <a href="{{ url('/bands?kana=' . $row) }}" class="px-4 py-2 bg-gray-700 hover:bg-indigo-600 text-white rounded-md text-sm font-bold transition shadow-sm">
+                    <a href="{{ url('/bands?kana=' . $row) }}" 
+                    class="px-4 py-2 rounded-md text-sm font-bold transition shadow-sm 
+                    {{ request('kana') === $row ? 'bg-indigo-600 text-white' : 'bg-gray-700 hover:bg-indigo-500 text-white' }}">
                         {{ $row }}
                     </a>
                 @endforeach
-                <a href="{{ url('/bands') }}" class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-md text-sm font-bold transition">すべて</a>
+                <a href="{{ url('/bands') }}" 
+                    class="px-4 py-2 rounded-md text-sm font-bold transition 
+                    {{ !request('kana') && !request('alpha') && !request('keyword') ? 'bg-indigo-600 text-white' : 'bg-gray-600 hover:bg-gray-500 text-white' }}">
+                    すべて
+                </a>
             </div>
 
             <div class="flex flex-wrap gap-2">
                 @foreach(range('A', 'Z') as $char)
-                    <a href="{{ url('/bands?alpha=' . $char) }}" class="px-3 py-1 bg-gray-900 hover:bg-indigo-500 text-gray-300 hover:text-white rounded text-xs transition border border-gray-700">
-                        {{ $char }}
+                    <a href="{{ url('/bands?alpha=' . $char) }}" 
+                        class="px-3 py-1 rounded text-xs transition border 
+                        {{ request('alpha') === $char ? 'bg-indigo-500 text-white border-indigo-500' : 'bg-gray-900 text-gray-300 hover:text-white border-gray-700 hover:bg-indigo-500' }}">
+                         {{ $char }}
                     </a>
                 @endforeach
             </div>
         </div>
 
-        <h2 class="text-2xl font-bold mb-6 border-b border-gray-700 pb-2">バンド一覧</h2>
+        <h2 class="mix-blend-defference text-2xl font-bold mb-6 border-b border-gray-700 pb-2">バンド一覧</h2>
         
         <div class="grid gap-6 md:grid-cols-2">
             @forelse ($bands as $band)
@@ -66,8 +76,16 @@
                     </a>
                 </div>
             @empty
-                <p class="text-gray-500">現在、登録されているバンドはありません。</p>
+                <div class="col-span-full text-center py-10 bg-gray-800/30 rounded-xl border border-dashed border-gray-700">
+                    <p class="text-gray-500 text-lg">「{{ request('kana') ?: request('alpha') ?: request('keyword') }}」に一致するバンドは見つかりませんでした。</p>
+                    <a href="{{ url('/bands') }}" class="mt-4 inline-block text-indigo-400 hover:text-indigo-300 underline">
+                        検索をリセットする
+                    </a>
+                </div>
             @endforelse
+            <div class="mt-8">
+                {{ $bands->appends(request()->query())->links() }}
+            </div>
         </div>
     </main>
 </div>

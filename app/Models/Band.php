@@ -18,7 +18,7 @@ class Band extends Model
         'label',
         'formed_at',
         'area',
-        'youtube_url',
+        'youtube_urls',
         'image_path',
     ];
     // ジャンルのリストを定義（DBに保存する値 => 画面に表示する名前）
@@ -30,5 +30,9 @@ class Band extends Model
         'Metal' => 'メタル(Metal)',
         'HipHop' => 'ヒップホップ(HipHop)',
         'Others' => 'その他(Others)'
+    ];
+
+    protected $casts = [
+        'youtube_urls' => 'array',//保存時はjson、取得時は配列に自動変換
     ];
 }

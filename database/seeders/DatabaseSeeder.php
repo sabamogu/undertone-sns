@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-        $this->call(BandSeeder::class);
+        \App\Models\Band::factory(50)->create();
+        // $this->call(BandSeeder::class);
         // User::factory(10)->create();
 
         // User::factory()->create([

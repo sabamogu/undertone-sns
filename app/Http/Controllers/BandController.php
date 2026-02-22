@@ -12,18 +12,15 @@ class BandController extends Controller
     {
         $query = Band::query();
 
-        // 2. キーワード検索（セレクトボックス導入に合わせたシンプル版）
+        // 1. キーワード検索 (既存の便利な機能を維持)
         if ($request->filled('keyword')) {
             $input = $request->input('keyword');
-
-            // 【修正】mb_convert_kana は「全角・半角の差」を埋めるために残すと親切です
             $keywords = [
                 $input,
                 mb_convert_kana($input, "KVC"), // 全角カタカナ
-                mb_convert_kana($input, "r"),   // 半角英数字(rock)
+                mb_convert_kana($input, "r"),   // 半角英数字
             ];
 
-            // 【追加】もし入力が「ロック」なら「Rock」も検索対象に加える
             foreach (\App\Models\Band::$genres as $en => $ja) {
                 if (str_contains($input, $ja)) {
                     $keywords[] = $en;
@@ -39,28 +36,56 @@ class BandController extends Controller
                     ->orWhere('area', 'like', "%{$word}%");
                 }
             });
-
         }
 
-        // 3. 50音検索（ここは変更なし）
+        // 2. 50音検索 (修正案)
         if ($request->filled('kana')) {
-            // ...既存のコード...
+            $kana = $request->input('kana');
+            
+            // 行（あ・か・さ...）ごとの検索範囲を配列で定義
+            $ranges = [
+                'あ' => ['あ', 'い', 'う', 'え', 'お'],
+                'か' => ['か', 'き', 'く', 'け', 'こ', 'が', 'ぎ', 'ぐ', 'げ', 'ご'],
+                'さ' => ['さ', 'し', 'す', 'せ', 'そ', 'ざ', 'じ', 'ず', 'ぜ', 'ぞ'],
+                'た' => ['た', 'ち', 'つ', 'て', 'と', 'だ', 'ぢ', 'づ', 'で', 'ど'],
+                'な' => ['な', 'に', 'ぬ', 'ね', 'の'],
+                'は' => ['は', 'ひ', 'ふ', 'へ', 'ほ', 'ば', 'び', 'ぶ', 'べ', 'ぼ', 'ぱ', 'ぴ', 'ぷ', 'ぺ', 'ぽ'],
+                'ま' => ['ま', 'み', 'む', 'め', 'も'],
+                'や' => ['や', 'ゆ', 'よ'],
+                'ら' => ['ら', 'り', 'る', 'れ', 'ろ'],
+                'わ' => ['わ', 'を', 'ん'],
+            ];
+
+            if (isset($ranges[$kana])) {
+                // 例：「さ」なら「さ%」「し%」「す%」...のいずれかに一致すればOK
+                $query->where(function($q) use ($ranges, $kana) {
+                    foreach ($ranges[$kana] as $char) {
+                        $q->orWhere('name_kana', 'like', $char . '%');
+                    }
+                });
+            } else {
+                $query->where('name_kana', 'like', $kana . '%');
+            }
         }
 
-        // 4. アルファベット検索（ここは変更なし）
+        // 3. アルファベット検索 (修正ポイント)
         if ($request->filled('alpha')) {
-            // ...既存のコード...
+            $alpha = $request->input('alpha');
+            $query->where('name', 'like', $alpha . '%');
         }
 
-        $bands = $query->orderBy('name_kana', 'asc')->get();
+        // 4. 最後にまとめて取得
+        // orderBy と paginate は $query に対して一度だけ行います
+        $bands = $query->orderBy('name_kana', 'asc')->paginate(10);
+
+        // 5. ページ移動時に検索条件（kana, alpha, keyword）を消さないための処理
+        $bands->appends($request->query());
+
         return view('bands.index', compact('bands'));
     }
 
-    public function show($id)
+    public function show(Band $band)
     {
-        // IDを元に、そのバンド1件だけを取得。なければ404エラーを出す
-        $band = Band::findOrFail($id);
-
         return view('bands.show', compact('band'));
     }
 
@@ -72,31 +97,33 @@ class BandController extends Controller
 
     public function store(Request $request)
     {
-        // 1. すべての入力チェック（バリデーション）をまとめて行う
+        // 1. バリデーション
         $request->validate([
             'name' => 'required|max:255',
             'name_kana' => 'required|max:255',
             'genre' => 'nullable',
-            'youtube_url' => 'nullable',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 画像のチェックを追加
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // 2. 入力データをすべて取得して変数 $data に入れる
+        // 2. YouTubeの空の入力欄を除外した配列を先に作る
+        $urls = array_filter($request->input('youtube_urls', []));
+
+        // 3. データを一旦すべて取得
         $data = $request->all();
 
-        // 3. 画像がアップロードされた場合だけの特別処理
+        // 4. きれいにした $urls で $data の中身を上書きする
+        $data['youtube_urls'] = array_values($urls); // array_valuesで添字を振り直すと確実です
+
+        // 5. 画像の処理
         if ($request->hasFile('image')) {
-            // 画像ファイルを保存し、その保存先パス（bands/xxxx.jpg）を取得
             $path = $request->file('image')->store('bands', 'public');
-            
-            // 保存用データの中に、画像のパスを書き加える
             $data['image_path'] = $path;
         }
-
-        // 4. まとめてデータベースに保存（ここで1回だけ実行！）
+        // dd($data['youtube_urls']);
+        // 5. データベースに1回だけ保存！
+        // $band = new Band(); ... $band->save(); の部分は削除します
         Band::create($data);
 
-        // 5. 最後に1回だけ一覧画面へリダイレクト
         return redirect()->route('bands.index')->with('status', 'バンドを登録しました！');
     }
 
@@ -109,34 +136,34 @@ class BandController extends Controller
     }
 
     // データを更新
-    public function update(Request $request, $id)
+    public function update(Request $request, Band $band)
     {
+        // dd($band);
         // 1. バリデーション
         $request->validate([
             'name' => 'required|max:255',
             'name_kana' => 'required|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // ...他...
         ]);
 
-        // 2. データを取得して更新
-        $band = Band::findOrFail($id);
+        // 2. データを取得
         $data = $request->all();
 
-        // 画像が新しくアップロードされた場合の処理
+        // 3. YouTubeの空入力を除外してセット
+        $urls = array_filter($request->input('youtube_urls', []));
+        $data['youtube_urls'] = array_values($urls); 
+
+        // 4. 画像の更新処理
         if ($request->hasFile('image')) {
-            // もし古い画像があれば削除する
-            if ($band->image_path) {
-                \Storage::disk('public')->delete($band->image_path);
-            }
-            // 新しい画像を保存
             $path = $request->file('image')->store('bands', 'public');
             $data['image_path'] = $path;
         }
 
+        // 5. 更新（$fillableにyoutube_urlsがあればこれでOK）
         $band->update($data);
 
-        // 3. 詳細画面に戻る
-        return redirect()->route('bands.show', $band->id)->with('status', '情報を更新しました！');
+        return redirect()->route('bands.show', $band);//[ => $band->id])->with('status', '更新しました');
     }
 
     
