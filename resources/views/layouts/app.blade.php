@@ -22,6 +22,8 @@
                 {{-- $slot ではなく @yield('content') を使うように戻す --}}
                 @yield('content')
             </main>
+
+            @include('components.contact-form')
         </div>
     </body>
 </html>

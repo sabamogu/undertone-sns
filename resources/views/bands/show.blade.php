@@ -24,7 +24,7 @@
                 </div>
             @endif
             <div class="flex justify-between items-center mb-6">
-                <h1 class="mix-blend-defference mt-2 text-4xl font-bold">{{ $band->name }}</h1>
+                <h1 class="text-white mix-blend-defference mt-4 text-4xl font-bold">{{ $band->name }}</h1>
                 <span class="bg-indigo-600 px-3 py-1 rounded-full text-sm">{{ $band->genre }}</span>
             </div>
 

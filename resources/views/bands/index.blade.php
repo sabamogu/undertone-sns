@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <h2 class="mix-blend-defference text-2xl font-bold mb-6 border-b border-gray-700 pb-2">バンド一覧</h2>
+        <h2 class="mix-blend-defference text-2xl font-bold mb-6 border-b border-gray-700 pb-2 text-white">バンド一覧</h2>
         
         <div class="grid gap-6 md:grid-cols-2">
             @forelse ($bands as $band)
@@ -85,6 +85,14 @@
             @endforelse
             <div class="mt-8">
                 {{ $bands->appends(request()->query())->links() }}
+            </div>
+            <div class="mt-8 text-center">
+                <a href="{{ route('bands.index') }}" class="inline-flex items-center text-gray-400 hover:text-white transition duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                    </svg>
+                    ページトップへ戻る
+                </a>
             </div>
         </div>
     </main>
