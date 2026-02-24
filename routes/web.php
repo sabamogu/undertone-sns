@@ -84,4 +84,19 @@ Route::get('/favorites', function () {
     ]);
 })->middleware(['auth'])->name('bands.favorites');
 
+// 提案フォームの表示
+Route::get('/bands/{band}/propose-edit', function (App\Models\Band $band) {
+    return view('bands.propose-edit', compact('band'));
+})->middleware(['auth'])->name('bands.propose-edit');
+
+// 提案の保存
+Route::post('/bands/{band}/propose-edit', [App\Http\Controllers\EditRequestController::class, 'store'])
+    ->middleware(['auth'])->name('bands.propose-edit.store');
+
+// 提案一覧の表示
+Route::get('/bands/{band}/edit-requests', [App\Http\Controllers\EditRequestController::class, 'index'])->name('bands.edit-requests.index');
+
+// 承認・却下の処理
+Route::post('/edit-requests/{editRequest}/approve', [App\Http\Controllers\EditRequestController::class, 'approve'])->name('edit-requests.approve');
+Route::post('/edit-requests/{editRequest}/reject', [App\Http\Controllers\EditRequestController::class, 'reject'])->name('edit-requests.reject');
 require __DIR__.'/auth.php';

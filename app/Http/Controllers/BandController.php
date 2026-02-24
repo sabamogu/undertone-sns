@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Band; //Bandモデルを使う宣言
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class BandController extends Controller
 {
+    use AuthorizesRequests;
 
     public function index(Request $request)
     {
@@ -87,7 +89,10 @@ class BandController extends Controller
 
     public function show(\App\Models\Band $band)
     {
-        return view('bands.show', compact('band'));
+         // このバンドに対する「保留中(pending)」の提案があるか確認
+        $editRequestCount = $band->editRequests()->where('status', 'pending')->count();
+
+        return view('bands.show', compact('band', 'editRequestCount'));
     }
 
 

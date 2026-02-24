@@ -11,20 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bands', function (Blueprint $table) {
+        Schema::create('edit_requests', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('band_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            
+            // 提案される新しいデータ
             $table->string('name');
             $table->string('name_kana');
             $table->string('genre')->nullable();
+            $table->text('description')->nullable();
+            $table->string('area')->nullable();
             $table->string('formation')->nullable();
             $table->string('label')->nullable();
             $table->date('formed_at')->nullable();
-            $table->string('area')->nullable();
-            $table->text('description')->nullable();
-            $table->json('youtube_urls')->nullable();
-            $table->string('image_path')->nullable(); // ★これが足りなかった
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // ★これも足りなかった
-            $table->string('status')->default('active'); // statusのデフォルトはactiveがいいかも
+            $table->json('youtube_urls')->nullable(); // 配列で保存
+            
+            // 承認状態（pending: 保留, approved: 承認, rejected: 却下）
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
@@ -34,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bands');
+        Schema::dropIfExists('edit_requests');
     }
 };

@@ -54,4 +54,9 @@ class Band extends Model
         if (!$user) return false;
         return $this->favoritedBy()->where('user_id', $user->id)->exists();
     }
+
+    public function editRequests() 
+    {
+         return $this->hasMany(EditRequest::class); 
+    }
 }

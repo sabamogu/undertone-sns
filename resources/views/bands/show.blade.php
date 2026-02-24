@@ -1,22 +1,54 @@
 @extends('layouts.app')@section('content')
+    @if (session('status'))
+        <div class="max-w-4xl mx-auto mb-6">
+            <div class="bg-green-600 text-white p-4 rounded-lg shadow-lg font-bold">
+                {{ session('status') }}
+            </div>
+        </div>
+    @endif
     <div class="max-w-2xl mx-auto">
         <a href="{{ url('/bands') }}" class="text-indigo-400 hover:underline">← 一覧に戻る</a>
 
         <div class="flex justify-end">
-            <!-- <a href="{{ route('bands.edit', ['band' => $band->id]) }}" class="bg-indigo-600 px-4 py-2 mr-4 rounded text-sm font-bold"> -->
+            {{-- 1. 投稿者（または管理者）本人の場合 --}}
             @can('update', $band)
-                {{-- 投稿者本人または管理者にしか見えない --}}
-                <a href="{{ route('bands.edit', $band) }}" class="bg-indigo-600 px-4 py-2 mr-4 rounded text-sm font-bold">編集する</a>
+                @if($editRequestCount > 0)
+                    <div class="bg-indigo-900/80 border border-indigo-500 text-white p-4 rounded-xl mb-4 mr-4 flex justify-between items-center shadow-lg">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl">📢</span>
+                            <div>
+                                <span class="font-bold block">編集提案が {{ $editRequestCount }} 件届いています！</span>
+                                <p class="text-xs text-indigo-300">内容を確認して承認・却下を選択してください。</p>
+                            </div>
+                        </div>
+                        <a href="{{ route('bands.edit-requests.index', $band) }}" class="bg-indigo-500 hover:bg-indigo-400 px-4 py-2 rounded-lg text-sm font-bold transition whitespace-nowrap ml-4">
+                            内容を確認
+                        </a>
+                    </div>
+                @endif
+
+                <div class="flex items-center space-x-4 mb-8">
+                    <a href="{{ route('bands.edit', $band) }}" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-6 rounded-lg transition shadow-md">
+                        編集する
+                    </a>
+                    
+                    <form action="{{ route('bands.destroy', $band) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-red-500 hover:text-red-400 text-sm font-medium underline">
+                            このバンドを削除する
+                        </button>
+                    </form>
+                </div>
+
+            {{-- 2. 投稿者以外（他人の投稿）の場合 --}}
             @else
-                {{-- それ以外のユーザーに見せる（後で「提案編集」に書き換える場所） --}}
-                <button class="bg-indigo-600 px-4 py-2 mr-4 rounded text-sm font-bold">編集を提案する</button>
+                <div class="mb-8">
+                    <a href="{{ route('bands.propose-edit', $band) }}" class="inline-block bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-6 rounded-full transition shadow-lg">
+                        ✨ このバンドの情報を修正する
+                    </a>
+                </div>
             @endcan
-            <form action="{{ route('bands.destroy', $band->id) }}" method="POST" onsubmit="return confirm('本当にこのバンドを削除してもよろしいですか？');">
-                @csrf
-                @method('DELETE') <button type="submit" class="text-red-500 hover:text-red-400 text-sm font-medium underline">
-                    このバンドを削除する
-                </button>
-            </form>
         </div>
         
         <div class="mt-8 bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-700">
