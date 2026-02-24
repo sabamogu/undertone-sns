@@ -12,6 +12,9 @@
                     <x-nav-link :href="route('bands.index')" :active="request()->routeIs('bands.index')" class="text-white">
                         {{ __('Bands List') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('bands.favorites')" :active="request()->routeIs('bands.favorites')" class="text-white">
+                        {{ __('Favorites') }}
+                    </x-nav-link>
                 </div>
             </div>
 

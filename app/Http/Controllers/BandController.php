@@ -131,7 +131,9 @@ class BandController extends Controller
     // 編集画面を表示
         public function edit(\App\Models\Band $band)
     {
-        // $band = \App\Models\Band::findOrFail($id);
+        // 権限がない場合は 403 Forbidden エラーを出す
+        $this->authorize('update', $band);
+
         return view('bands.edit', compact('band'));
     }
 
@@ -169,14 +171,14 @@ class BandController extends Controller
     
     public function destroy(\App\Models\Band $band)
     {
-    // 1. データを取得
-    $band = Band::findOrFail($id);
+        // 1. データを取得
+        $band = Band::findOrFail($id);
 
-    // 2. 削除実行
-    $band->delete();
+        // 2. 削除実行
+        $band->delete();
 
-    // 3. 一覧画面に戻る
-    return redirect()->route('bands.index')->with('status', 'バンドを削除しました');
+        // 3. 一覧画面に戻る
+        return redirect()->route('bands.index')->with('status', 'バンドを削除しました');
     }
 }
 

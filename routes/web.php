@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BandController;
 use App\Http\Controllers\ProfileController; 
 use Illuminate\Support\Facades\Route;
+use App\Models\Band;
 
 // 1. トップページ（アクセスしたら一覧へ）
 Route::get('/', function () {
@@ -60,5 +61,27 @@ Route::post('/contact', function (Request $request) {
     return redirect(url()->previous() . '#contact')
         ->with('status', '（デモ用）お問い合わせを送信しました！内容の確認とバリデーションに成功しました。');
 })->name('contact.send');
+
+Route::post('/bands/{band}/favorite', function (Band $band) {
+    // toggle メソッドを使うと「なければ登録、あれば解除」を勝手にやってくれます！
+    auth()->user()->favoriteBands()->toggle($band);
+    return back();
+})->middleware(['auth'])->name('bands.favorite');
+
+
+Route::get('/favorites', function () {
+    $user = auth()->user();
+    
+    // お気に入りしたバンド（ページネーション付き）
+    $favoriteBands = $user->favoriteBands()->latest('band_user.created_at')->paginate(10);
+    
+    // 自分が投稿したバンド
+    $myBands = $user->bands()->latest()->get();
+    
+    return view('bands.favorites', [
+        'favoriteBands' => $favoriteBands,
+        'myBands' => $myBands
+    ]);
+})->middleware(['auth'])->name('bands.favorites');
 
 require __DIR__.'/auth.php';

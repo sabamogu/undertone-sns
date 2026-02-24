@@ -22,8 +22,17 @@
                 {{-- $slot ではなく @yield('content') を使うように戻す --}}
                 @yield('content')
             </main>
-
-            @include('components.contact-form')
+            {{-- 現在のルート名が 'bands.index' の時だけ表示 --}}
+            @if(request()->routeIs('bands.index'))
+                @include('components.contact-form')
+            @else
+                {{-- それ以外のページではコピーライトのみ表示するフッターを置く --}}
+                <footer class="bg-gray-900 py-8 border-t border-gray-800 text-center">
+                    <p class="text-gray-500 text-sm">
+                        &copy; {{ date('Y') }} UNDER TONE. All rights reserved.
+                    </p>
+                </footer>
+            @endif
         </div>
     </body>
 </html>

@@ -50,4 +50,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Band::class);
     }
+
+    public function favoriteBands()
+    {
+        // belongsToMany を使って、中間テーブル band_user を通じて Band と繋げます
+        return $this->belongsToMany(Band::class)->withTimestamps();
+    }
 }
