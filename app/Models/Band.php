@@ -29,7 +29,7 @@ class Band extends Model
         'Pop'  => 'ポップ(Pop)',
         'Metal' => 'メタル(Metal)',
         'HipHop' => 'ヒップホップ(HipHop)',
-        'Others' => 'その他(Others)'
+        'Others' => 'その他(Others)',
     ];
 
     protected $casts = [

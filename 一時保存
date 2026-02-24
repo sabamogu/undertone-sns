@@ -1,0 +1,147 @@
+web.php
+<?php
+
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BandController;
+use Illuminate\Support\Facades\Route;
+
+// 1. トップページ
+Route::get('/', function () {
+    return redirect()->route('bands.index');
+});
+
+// 2. 一覧画面（誰でも見れる）
+Route::get('/bands', [BandController::class, 'index'])->name('bands.index');
+
+// 3. 認証が必要なグループ
+Route::middleware('auth')->group(function () {
+    // プロフィール関連
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // バンドの登録・編集・削除
+    Route::get('/bands/create', [BandController::class, 'create'])->name('bands.create');
+    Route::post('/bands', [BandController::class, 'store'])->name('bands.store');
+    Route::get('/bands/{id}/edit', [BandController::class, 'edit'])->name('bands.edit');
+    Route::put('/bands/{band}', [BandController::class, 'update'])->name('bands.update');
+    Route::delete('/bands/{id}', [BandController::class, 'destroy'])->name('bands.destroy');
+});
+
+// 4. 詳細画面（誰でも見れる）
+Route::get('/bands/{band}', [BandController::class, 'show'])->name('bands.show');
+
+// 認証関連（auth.php）の読み込み
+require __DIR__.'/auth.php';
+
+
+
+コントローラーindexメソッド
+public function index(Request $request)
+    {
+        $query = Band::query();
+
+        // 1. キーワード検索 (既存の便利な機能を維持)
+        if ($request->filled('keyword')) {
+            $input = $request->input('keyword');
+            $keywords = [
+                $input,
+                mb_convert_kana($input, "KVC"), // 全角カタカナ
+                mb_convert_kana($input, "r"),   // 半角英数字
+            ];
+
+            foreach (\App\Models\Band::$genres as $en => $ja) {
+                if (str_contains($input, $ja)) {
+                    $keywords[] = $en;
+                }
+            }
+
+            $keywords = array_unique($keywords);
+
+            $query->where(function($q) use ($keywords) {
+                foreach ($keywords as $word) {
+                    $q->orWhere('name', 'like', "%{$word}%")
+                    ->orWhere('genre', 'like', "%{$word}%")
+                    ->orWhere('area', 'like', "%{$word}%");
+                }
+            });
+        }
+
+        // 2. 50音検索 (修正案)
+        if ($request->filled('kana')) {
+            $kana = $request->input('kana');
+            
+            // 行（あ・か・さ...）ごとの検索範囲を配列で定義
+            $ranges = [
+                'あ' => ['あ', 'い', 'う', 'え', 'お'],
+                'か' => ['か', 'き', 'く', 'け', 'こ', 'が', 'ぎ', 'ぐ', 'げ', 'ご'],
+                'さ' => ['さ', 'し', 'す', 'せ', 'そ', 'ざ', 'じ', 'ず', 'ぜ', 'ぞ'],
+                'た' => ['た', 'ち', 'つ', 'て', 'と', 'だ', 'ぢ', 'づ', 'で', 'ど'],
+                'な' => ['な', 'に', 'ぬ', 'ね', 'の'],
+                'は' => ['は', 'ひ', 'ふ', 'へ', 'ほ', 'ば', 'び', 'ぶ', 'べ', 'ぼ', 'ぱ', 'ぴ', 'ぷ', 'ぺ', 'ぽ'],
+                'ま' => ['ま', 'み', 'む', 'め', 'も'],
+                'や' => ['や', 'ゆ', 'よ'],
+                'ら' => ['ら', 'り', 'る', 'れ', 'ろ'],
+                'わ' => ['わ', 'を', 'ん'],
+            ];
+
+            if (isset($ranges[$kana])) {
+                // 例：「さ」なら「さ%」「し%」「す%」...のいずれかに一致すればOK
+                $query->where(function($q) use ($ranges, $kana) {
+                    foreach ($ranges[$kana] as $char) {
+                        $q->orWhere('name_kana', 'like', $char . '%');
+                    }
+                });
+            } else {
+                $query->where('name_kana', 'like', $kana . '%');
+            }
+        }
+
+        // 3. アルファベット検索 (修正ポイント)
+        if ($request->filled('alpha')) {
+            $alpha = $request->input('alpha');
+            $query->where('name', 'like', $alpha . '%');
+        }
+
+        // 4. 最後にまとめて取得
+        // orderBy と paginate は $query に対して一度だけ行います
+        $bands = $query->orderBy('name_kana', 'asc')->paginate(10);
+
+        // 5. ページ移動時に検索条件（kana, alpha, keyword）を消さないための処理
+        $bands->appends($request->query());
+
+        return view('bands.index', compact('bands'));
+    }
+
+    うまくいっている状態↓
+    web.php
+    <?php
+
+use App\Http\Controllers\BandController;
+use Illuminate\Support\Facades\Route;
+
+// 1. トップページ
+Route::get('/', function () {
+    return redirect('/bands');
+});
+
+// 2. 一覧画面
+Route::get('/bands', [BandController::class, 'index'])->name('bands.index');
+// 3. 認証が必要なグループ（ここを少しずつ戻す）
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    
+    // バンド登録・編集
+    Route::get('/bands/create', [BandController::class, 'create'])->name('bands.create');
+    Route::post('/bands', [BandController::class, 'store'])->name('bands.store');
+    Route::get('/bands/{id}/edit', [BandController::class, 'edit'])->name('bands.edit');
+    Route::put('/bands/{band}', [BandController::class, 'update'])->name('bands.update');
+});
+require __DIR__.'/auth.php';
+
+Bandcontrollerのindexメソッド
+public function index()
+    {
+        $bands = \App\Models\Band::orderBy('name_kana', 'asc')->paginate(10);
+        return view('bands.index', compact('bands'));
+    }

@@ -84,7 +84,7 @@ class BandController extends Controller
         return view('bands.index', compact('bands'));
     }
 
-    public function show(Band $band)
+    public function show(\App\Models\Band $band)
     {
         return view('bands.show', compact('band'));
     }
@@ -129,9 +129,9 @@ class BandController extends Controller
 
 
     // 編集画面を表示
-        public function edit($id)
+        public function edit(\App\Models\Band $band)
     {
-        $band = Band::findOrFail($id);
+        // $band = \App\Models\Band::findOrFail($id);
         return view('bands.edit', compact('band'));
     }
 
@@ -167,7 +167,7 @@ class BandController extends Controller
     }
 
     
-    public function destroy($id)
+    public function destroy(\App\Models\Band $band)
     {
     // 1. データを取得
     $band = Band::findOrFail($id);

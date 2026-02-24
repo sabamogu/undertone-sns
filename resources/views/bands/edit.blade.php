@@ -8,18 +8,18 @@
             @csrf 
             @method('PUT')<div>
                 <label class="block text-sm font-medium mb-2">バンド名</label>
-                <input type="text" name="name" value="{{ $band->name }}" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" placeholder="例: The Laravelers" required>
+                <input type="text" name="name" value="{{ $band->name }}" class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" placeholder="例: The Laravelers" required>
             </div>
 
             <div>
                 <label class="block text-sm font-medium mb-2">カナ（検索用）</label>
-                <input type="text" name="name_kana" value="{{ $band->name_kana }}" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" placeholder="例: ざ・ららべらーず" required>
+                <input type="text" name="name_kana" value="{{ $band->name_kana }}" class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" placeholder="例: ざ・ららべらーず" required>
             </div>
 
             <div class="grid grid-cols-2 gap-8">
                 <div>
                     <label class="block text-sm font-medium mb-2">ジャンル</label>
-                    <select name="genre" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none">
+                    <select name="genre" class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none">
                         <option value="">選択してください</option>
                         @foreach(\App\Models\Band::$genres as $value => $label)
                             <option value="{{ $value }}" {{ $band->genre == $value ? 'selected' : '' }}>
@@ -30,24 +30,24 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-2">活動地域</label>
-                    <input type="text" name="area" value="{{ $band->area }}" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" placeholder="例: 下北沢">
+                    <input type="text" name="area" value="{{ $band->area }}" class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" placeholder="例: 下北沢">
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-2">編成</label>
-                    <input type="text" name="formation" value="{{ $band->formation }}" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" placeholder="例: 3ピース、5人組など">
+                    <input type="text" name="formation" value="{{ $band->formation }}" class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" placeholder="例: 3ピース、5人組など">
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-2">所属レーベル</label>
-                    <input type="text" name="label" value="{{ $band->label }}" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" placeholder="空欄なら「無し」扱い">
+                    <input type="text" name="label" value="{{ $band->label }}" class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" placeholder="空欄なら「無し」扱い">
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-2">結成年月日</label>
-                    <input type="date" name="formed_at" value="{{ $band->formed_at }}" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none">
+                    <input type="date" name="formed_at" value="{{ $band->formed_at }}" class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none">
                 </div>
             </div>
                 <div>
                     <label class="block text-sm font-medium mb-2">バンドロゴ / 写真</label>
-                    <input type="file" name="image" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none">
+                    <input type="file" name="image" class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-2">YouTube動画ID</label>
@@ -57,7 +57,7 @@
                             @foreach($band->youtube_urls as $url)
                                 <div class="flex gap-2">
                                     <input type="text" name="youtube_urls[]" value="{{ $url }}" 
-                                        class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" 
+                                        class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" 
                                         placeholder="例: Mfy1HCD2sTk">
                                     <button type="button" class="remove-video-btn text-red-500 hover:text-red-400 px-2 font-bold">
                                         ✕
@@ -68,7 +68,7 @@
                             {{-- 動画が一つも登録されていない場合、空の入力欄を1つ出す --}}
                             <div class="flex gap-2">
                                 <input type="text" name="youtube_urls[]" 
-                                    class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" 
+                                    class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" 
                                     placeholder="例: Mfy1HCD2sTk">
                             </div>
                         @endif
@@ -106,7 +106,7 @@
                 newInputGroup.className = 'flex gap-2';
                 newInputGroup.innerHTML = `
                     <input type="text" name="youtube_urls[]" 
-                        class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" 
+                        class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" 
                         placeholder="別の動画IDを入力">
                     <button type="button" class="remove-video-btn text-red-500 hover:text-red-400 px-2 font-bold">
                         ✕

@@ -3,7 +3,8 @@
         <a href="{{ url('/bands') }}" class="text-indigo-400 hover:underline">← 一覧に戻る</a>
 
         <div class="flex justify-end">
-            <a href="{{ route('bands.edit', $band->id) }}" class="bg-indigo-600 px-4 py-2 mr-4 rounded text-sm font-bold">
+            <!-- <a href="{{ route('bands.edit', ['band' => $band->id]) }}" class="bg-indigo-600 px-4 py-2 mr-4 rounded text-sm font-bold"> -->
+            <a href="{{ route('bands.edit', $band) }}" class="bg-indigo-600 px-4 py-2 mr-4 rounded text-sm font-bold">    
                 情報を編集する
             </a>
             <form action="{{ route('bands.destroy', $band->id) }}" method="POST" onsubmit="return confirm('本当にこのバンドを削除してもよろしいですか？');">
