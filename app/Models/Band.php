@@ -20,6 +20,8 @@ class Band extends Model
         'area',
         'youtube_urls',
         'image_path',
+        'description',
+        'user_id',
     ];
     // ジャンルのリストを定義（DBに保存する値 => 画面に表示する名前）
     public static $genres = [
@@ -35,4 +37,10 @@ class Band extends Model
     protected $casts = [
         'youtube_urls' => 'array',//保存時はjson、取得時は配列に自動変換
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

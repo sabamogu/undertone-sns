@@ -84,6 +84,7 @@ class BandController extends Controller
         return view('bands.index', compact('bands'));
     }
 
+
     public function show(\App\Models\Band $band)
     {
         return view('bands.show', compact('band'));
@@ -95,34 +96,33 @@ class BandController extends Controller
         return view('bands.create');
     }
 
+
     public function store(Request $request)
     {
-        // 1. バリデーション
-        $request->validate([
+        // 1. バリデーション（結果を変数に入れる）
+        $validated = $request->validate([
             'name' => 'required|max:255',
             'name_kana' => 'required|max:255',
             'genre' => 'nullable',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // 2. YouTubeの空の入力欄を除外した配列を先に作る
+        // 2. YouTubeの空の入力欄を除外
         $urls = array_filter($request->input('youtube_urls', []));
 
         // 3. データを一旦すべて取得
         $data = $request->all();
+        $data['youtube_urls'] = array_values($urls);
 
-        // 4. きれいにした $urls で $data の中身を上書きする
-        $data['youtube_urls'] = array_values($urls); // array_valuesで添字を振り直すと確実です
-
-        // 5. 画像の処理
+        // 4. 画像の処理
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('bands', 'public');
             $data['image_path'] = $path;
         }
-        // dd($data['youtube_urls']);
-        // 5. データベースに1回だけ保存！
-        // $band = new Band(); ... $band->save(); の部分は削除します
-        Band::create($data);
+
+        // 5. データベースに保存（$validated ではなく、加工済みの $data を渡す）
+        // $request->user()->bands() を使うことで、自動的に user_id がセットされます
+        $request->user()->bands()->create($data);
 
         return redirect()->route('bands.index')->with('status', 'バンドを登録しました！');
     }

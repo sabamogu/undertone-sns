@@ -45,4 +45,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function bands()
+    {
+        return $this->hasMany(Band::class);
+    }
 }
