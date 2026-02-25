@@ -1,59 +1,62 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+＃ バンド情報共有プラットフォーム
+音楽ファンが共同で情報を最新に保つことができる、Wiki形式のバンドデータベースです。
+　※管理者アカウント
+     mail：test@test.com
+      PW ：testtest
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+＃ プロジェクトの概要
+「自分が好きなマイナーバンドの情報を広めたい」「古い情報を最新に更新したい」というファンの熱量を形にするためのプラットフォームです。情報の正確性を担保するため、独自の「編集提案・承認システム」を導入しています。
 
-## About Laravel
+＃　このアプリの作成に至った理由
+私の趣味のために作成しました。私の趣味は世間にあまり広まっていないようなインディーズバンドの曲を聴き漁ることです。
+しかし探すのに苦労していたことから「自分でデータベースを作って、他の人から投稿してもらえばめちゃくちゃ捗るのでは」と考え、アプリの作成に至りました。
+そしてここに集まったバンドはみんなから聞かれることになる（と思われる）ので、バンド自身の集客、発展にも寄与できると考えました。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+＃　主要機能
+1. 編集提案・承認フロー（最注力機能）
+    単なるCRUD機能にとどまらず、情報の信頼性を維持するためのワークフローを実装しました。
+    〇提案機能: 投稿者以外のユーザーが、既存データの修正案を送信できます。
+    〇比較・承認機能: 投稿者は「現在のデータ」と「提案データ」を並列で比較し、ワンクリックで承認
+    （データの自動上書き）または却下を選択できます。
+    〇整合性管理: 提案中も元のデータは保持され、承認の瞬間まで公開情報は書き換わりません。
+    
+2. バンド管理機能
+    画像アップロード、YouTube動画の埋め込み表示、詳細な属性情報（活動地域、結成日等）の管理。
+    
+3. お気に入り機能
+    非同期（またはリダイレクト）によるお気に入り登録。
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+＃　使用技術
+バックエンド: Laravel 11 (PHP 8.x)
+フロントエンド: Tailwind CSS, Blade
+インフラストラクチャー: Docker / Laravel Sail
+データベース: MySQL 8.0
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+＃　データベース設計
+主に以下のテーブル構成でリレーションを構築しています。
+users: ユーザー管理
+bands: バンド基本情報
+edit_requests: 編集提案データ（bandsテーブルと1対多）
+favorites: お気に入り管理（中間テーブル）
 
-## Learning Laravel
+＃　こだわったポイント
+1.画面表示
+ログイン画面含めダークな雰囲気で統一し、文字の色合いも見やすいながらも目が疲れにくい配色としました。
+2.データ設計
+edit_requestsテーブルをbandsテーブルと分離させることで、承認前のデータが本番データに混入しないよう設計しました。
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+＃　今後の実装予定
+〇承認時の通知機能（メールまたはサイト内通知）
+〇編集履歴（ログ）の閲覧機能
+〇メジャーデビューしたバンドを別リストに隔離する機能（インディーズバンド特化サイトの為）
+〇過去１週間以内に新規で登録されたバンドを表示する機能
+〇特定の期間のいいねの数によって集計される「いいねランキング」の実装。
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<img width="1158" height="901" alt="スクリーンショット 2026-02-26 075931" src="https://github.com/user-attachments/assets/27e1dd31-02d3-4d51-90e2-f55688324904" />
 
-## Laravel Sponsors
+<img width="1561" height="900" alt="スクリーンショット 2026-02-26 075610" src="https://github.com/user-attachments/assets/ce5a25b8-acf3-47ec-8311-30498624abea" />
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+<img width="1469" height="901" alt="スクリーンショット 2026-02-26 075715" src="https://github.com/user-attachments/assets/e62ae174-5a9b-4715-a6bd-78891e4d2b2c" />
 
-### Premium Partners
+<img width="1257" height="908" alt="スクリーンショット 2026-02-26 075737" src="https://github.com/user-attachments/assets/280ca942-3fed-49e9-aec6-2d1d18617a6d" />
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
