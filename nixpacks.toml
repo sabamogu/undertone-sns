@@ -3,7 +3,7 @@ nixPkgs = ['php84', 'php84Packages.composer', 'nodejs_20']
 
 [phases.install]
 dependsOn = ['setup']
-# ビルド前にartisanを一時的に別名に変えて隠す！
+# artisanを隠し、さらに環境変数でLaravelではないフリをする
 cmds = [
     'mv artisan artisan.tmp',
     'composer install --no-dev --no-scripts --no-interaction --optimize-autoloader',
@@ -12,7 +12,12 @@ cmds = [
 
 [phases.build]
 dependsOn = ['install']
-cmds = ['npm install && npm run build']
+# ビルド中もartisanを隠したままにする
+cmds = [
+    'mv artisan artisan.tmp || true',
+    'npm install && npm run build',
+    'mv artisan.tmp artisan || true'
+]
 
 [start]
 cmd = 'vendor/bin/heroku-php-apache2 public/'
