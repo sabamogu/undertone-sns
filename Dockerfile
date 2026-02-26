@@ -24,5 +24,8 @@ RUN npm run build
 # 権限の設定
 RUN chmod -R 777 storage bootstrap/cache
 
+# 画像を表示するためのシンボリックリンクを作成
+RUN php artisan storage:link
+
 # 起動コマンド（マイグレーションをしてから起動）
 CMD php artisan migrate --force && php -S 0.0.0.0:${PORT:-80} -t public
