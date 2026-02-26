@@ -5,7 +5,11 @@
     <header class="mb-10 text-center">
         <h1 class="text-6xl font-bebas tracking-widest text-indigo-500">UNDER TONE</h1>
         <p class="text-gray-400 mt-2">あなたの知らない未知の音楽がここにある。<br>Uncover music you never knew existed.</p>
-
+            @if (session('status'))
+                <div style="background-color: #28a745; color: white; padding: 15px; text-align: center; margin-bottom: 20px;">
+                    {{ session('status') }}
+                </div>
+            @endif
         <div class="mt-8 mb-10 p-8 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-xl max-w-2xl mx-auto text-left">
             <h2 class="text-xl text-indigo-400 mb-4 flex items-center italic">
                 About Under Tone
@@ -88,7 +92,7 @@
             </div>
             {{-- 送信成功メッセージの表示 --}}
             @if (session('status'))
-                <div class="max-w-md mx-auto bg-green-600 text-white p-4 rounded-lg mb-8 text-center shadow-lg">
+                <div style="background-color: #28a745; color: white; padding: 15px; text-align: center; margin-bottom: 20px;">
                     {{ session('status') }}
                 </div>
             @endif
