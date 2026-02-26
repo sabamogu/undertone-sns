@@ -25,7 +25,7 @@ COPY . .
 
 # 依存関係のインストール (ここが鬼門だった場所)
 # --no-scripts をつけることで、勝手な artisan コマンド実行を物理的に封じます
-RUN composer install --no-dev --no-scripts --no-interaction --optimize-autoloader
+RUN composer install --no-dev --no-scripts --no-interaction --optimize-autoloader --ignore-platform-reqs
 
 # 権限の設定
 RUN chown -R www-data:www-data storage bootstrap/cache
