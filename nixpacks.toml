@@ -1,0 +1,10 @@
+[phases.install]
+dependsOn = ['setup']
+cmds = ['composer install --no-dev --no-scripts --no-interaction --optimize-autoloader']
+
+[phases.build]
+dependsOn = ['install']
+cmds = ['npm install && npm run build']
+
+[start]
+cmd = 'vendor/bin/heroku-php-apache2 public/'
