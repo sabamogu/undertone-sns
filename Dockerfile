@@ -19,6 +19,7 @@ RUN composer install --no-dev --no-scripts --no-interaction --optimize-autoloade
 RUN chown -R www-data:www-data storage bootstrap/cache
 RUN chmod -R 777 storage bootstrap/cache
 
+RUN php artisan migrate --force
 # ★ここが重要：Apacheを使わず、PHPの機能だけでサーバーを立ち上げる
 # Railwayが用意してくれる PORT 変数を使って起動します
 CMD php -S 0.0.0.0:${PORT:-80} -t public
