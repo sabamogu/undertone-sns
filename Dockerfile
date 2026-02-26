@@ -27,4 +27,4 @@ RUN mkdir -p storage/app/public/bands public/bands && chmod -R 777 storage publi
 # 画像を表示するためのシンボリックリンクを作成
 RUN php artisan storage:link
 
-CMD php artisan storage:link && php artisan migrate --force && php -S 0.0.0.0:${PORT:-80} -t public server.php
+CMD php artisan storage:link && php artisan migrate --force && php -S 0.0.0.0:${PORT:-80} server.php
