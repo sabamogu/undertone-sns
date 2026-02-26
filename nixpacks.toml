@@ -1,23 +1,34 @@
+# 1. Railwayの「Laravel判定」を完全に黙らせる
+[variables]
+    NIXPACKS_NO_PHP_ARTISAN = '1'
+    APP_CONFIG_CACHE = ''
+    APP_ROUTES_CACHE = ''
+    APP_EVENTS_CACHE = ''
+
 [phases.setup]
 nixPkgs = ['php84', 'php84Packages.composer', 'nodejs_20']
 
 [phases.install]
 dependsOn = ['setup']
-# artisanを隠し、さらに環境変数でLaravelではないフリをする
+# artisanを隠し、composer installだけを純粋に行う
 cmds = [
-    'mv artisan artisan.tmp',
+    'mv artisan artisan.bak || true',
     'composer install --no-dev --no-scripts --no-interaction --optimize-autoloader',
-    'mv artisan.tmp artisan'
+    'mv artisan.bak artisan || true'
 ]
 
 [phases.build]
 dependsOn = ['install']
-# ビルド中もartisanを隠したままにする
+# ビルド中もartisanを隠し通す
 cmds = [
-    'mv artisan artisan.tmp || true',
+    'mv artisan artisan.bak || true',
     'npm install && npm run build',
-    'mv artisan.tmp artisan || true'
+    'mv artisan.bak artisan || true'
 ]
+
+# 2. ここが重要：Railwayが勝手に追加する「計画」をすべて無効化する
+[phases.plan]
+cmds = ['echo "Laravel auto-plan disabled"']
 
 [start]
 cmd = 'vendor/bin/heroku-php-apache2 public/'
