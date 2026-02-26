@@ -3,7 +3,12 @@ nixPkgs = ['php84', 'php84Packages.composer', 'nodejs_20']
 
 [phases.install]
 dependsOn = ['setup']
-cmds = ['composer install --no-dev --no-scripts --no-interaction --optimize-autoloader']
+# ビルド前にartisanを一時的に別名に変えて隠す！
+cmds = [
+    'mv artisan artisan.tmp',
+    'composer install --no-dev --no-scripts --no-interaction --optimize-autoloader',
+    'mv artisan.tmp artisan'
+]
 
 [phases.build]
 dependsOn = ['install']
