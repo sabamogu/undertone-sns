@@ -109,7 +109,7 @@ class BandController extends Controller
             'name' => 'required|max:255',
             'name_kana' => 'required|max:255',
             'genre' => 'nullable',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
         // 2. YouTubeの空の入力欄を除外
@@ -121,8 +121,11 @@ class BandController extends Controller
 
         // 4. 画像の処理
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('bands', 'public');
-            $data['image_path'] = $path;
+            $file = $request->file('image');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('bands'), $fileName);
+            
+            $data['image_path'] = 'bands/' . $fileName;
         }
 
         // 5. データベースに保存（$validated ではなく、加工済みの $data を渡す）
@@ -163,8 +166,11 @@ class BandController extends Controller
 
         // 4. 画像の更新処理
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('bands', 'public');
-            $data['image_path'] = $path;
+            $file = $request->file('image');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('bands'), $fileName);
+            
+            $data['image_path'] = 'bands/' . $fileName;
         }
 
         // 5. 更新（$fillableにyoutube_urlsがあればこれでOK）

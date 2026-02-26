@@ -23,6 +23,7 @@ RUN npm run build
 
 # 権限の設定
 RUN chmod -R 777 storage bootstrap/cache
+RUN mkdir -p public/bands && chmod -R 777 public/bands
 
 # 画像を表示するためのシンボリックリンクを作成
 RUN php artisan storage:link
