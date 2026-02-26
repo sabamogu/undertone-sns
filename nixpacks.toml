@@ -1,22 +1,19 @@
 [phases.setup]
-# php84 を確実に指定
+# php84を先頭に、かつcomposerも明示的に指定
 nixPkgs = ['php84', 'php84Packages.composer', 'nodejs_20']
 
 [phases.install]
 dependsOn = ['setup']
-# composer実行前に環境変数を強制セット
+# composer.lockを無視して、今の環境（8.4）に合わせて強制更新する
 cmds = [
-    'export PHP_VERSION=8.4',
     'mv artisan artisan.bak || true',
-    'composer install --no-dev --no-scripts --no-interaction --optimize-autoloader',
+    'composer update --no-dev --no-interaction --optimize-autoloader --ignore-platform-reqs',
     'mv artisan.bak artisan || true'
 ]
 
 [phases.build]
 dependsOn = ['install']
-cmds = [
-    'npm install && npm run build'
-]
+cmds = ['npm install && npm run build']
 
 [start]
 cmd = 'vendor/bin/heroku-php-apache2 public/'
