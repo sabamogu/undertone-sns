@@ -13,14 +13,16 @@ RUN apt-get update && apt-get install -y \
 
 # (前半のパッケージインストールなどはそのまま)
 
-# Apacheの設定
-# 設定ファイルを直接いじらず、環境変数でドキュメントルートを指示します
+# 1. 重複の原因となる MPM 設定を一度すべて無効化し、'prefork' だけを強制的に有効にする
+RUN a2dismod mpm_event mpm_worker || true && a2enmod mpm_prefork
+
+# 2. mod_rewrite を有効化
+RUN a2enmod rewrite
+
+# 3. Apacheの設定（ドキュメントルートの変更）
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
-# mod_rewriteを有効化
-RUN a2enmod rewrite
 
 # Composerのインストール
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
