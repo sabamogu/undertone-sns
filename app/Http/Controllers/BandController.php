@@ -153,7 +153,7 @@ class BandController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'name_kana' => 'required|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
             // ...他...
         ]);
 
