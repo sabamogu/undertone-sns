@@ -11,9 +11,15 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql
 
+# (前半のパッケージインストールなどはそのまま)
+
 # Apacheの設定
+# 設定ファイルを直接いじらず、環境変数でドキュメントルートを指示します
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# mod_rewriteを有効化
 RUN a2enmod rewrite
 
 # Composerのインストール
@@ -23,11 +29,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 COPY . .
 
-# 依存関係のインストール (ここが鬼門だった場所)
-# --no-scripts をつけることで、勝手な artisan コマンド実行を物理的に封じます
+# 依存関係のインストール
 RUN composer install --no-dev --no-scripts --no-interaction --optimize-autoloader --ignore-platform-reqs
 
 # 権限の設定
 RUN chown -R www-data:www-data storage bootstrap/cache
 
+# ★ここが重要：CMDもENTRYPOINTも書かない（ベースイメージに任せる）
 EXPOSE 80
