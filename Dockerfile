@@ -17,6 +17,7 @@ RUN composer install --no-dev --no-scripts --no-interaction --optimize-autoloade
 
 # 権限の設定
 RUN chown -R www-data:www-data storage bootstrap/cache
+RUN chmod -R 777 storage bootstrap/cache
 
 # ★ここが重要：Apacheを使わず、PHPの機能だけでサーバーを立ち上げる
 # Railwayが用意してくれる PORT 変数を使って起動します
