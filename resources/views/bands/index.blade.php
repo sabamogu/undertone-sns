@@ -86,6 +86,12 @@
             <div class="mt-8">
                 {{ $bands->appends(request()->query())->links() }}
             </div>
+            {{-- 送信成功メッセージの表示 --}}
+            @if (session('status'))
+                <div class="max-w-md mx-auto bg-green-600 text-white p-4 rounded-lg mb-8 text-center shadow-lg">
+                    {{ session('status') }}
+                </div>
+            @endif
             <div class="mt-8 text-center">
                 <a href="{{ route('bands.index') }}" class="inline-flex items-center text-gray-400 hover:text-white transition duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

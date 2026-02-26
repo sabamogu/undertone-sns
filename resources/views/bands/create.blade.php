@@ -40,7 +40,7 @@
                 </div>
                 </div>
                 <div>
-                    <label class="text-white block text-sm font-medium mb-2">バンドロゴ / 写真</label>
+                    <label class="text-white block text-sm font-medium mb-2">バンドロゴ / 写真(.jpeg)</label>
                     <input type="file" name="image" class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none">
                 </div>
             <div>
