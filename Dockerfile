@@ -32,6 +32,6 @@ RUN php artisan storage:link
 RUN echo "upload_max_filesize=20M" > /usr/local/etc/php/conf.d/uploads.ini \
     && echo "post_max_size=20M" >> /usr/local/etc/php/conf.d/uploads.ini
 
-RUN mkdir -p public/band_images && chmod -R 777 public/band_images
+RUN mkdir -p public/assets_content && chmod -R 777 public/assets_content
 # 🚀 修正：server.php ではなく public/index.php を使います！
-CMD php artisan migrate --force && php -S 0.0.0.0:${PORT:-80} -t public public/index.php
+CMD php artisan migrate --force && php -S 0.0.0.0:${PORT:-80} -t public server.php || php -S 0.0.0.0:${PORT:-80} -t public public/index.php
