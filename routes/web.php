@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/bands/{band}', [BandController::class, 'destroy'])->name('bands.destroy');
 });
 
-Route::get('/bands/{band}', [BandController::class, 'show'])->name('bands.show'); 
+Route::get('/bands/{band}', [BandController::class, 'show'])->name('bands.show')->where('band', '[0-9]+');
 
 Route::post('/contact', function (Request $request) {
     // 1. バリデーションを実行
