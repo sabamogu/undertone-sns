@@ -23,15 +23,10 @@ RUN npm run build
 
 # 権限の設定
 RUN chmod -R 777 storage bootstrap/cache
-RUN mkdir -p storage/app/public/bands public/bands && chmod -R 777 storage public
-
+RUN mkdir -p public/bands && chmod -R 777 public/bands
 
 # 画像を表示するためのシンボリックリンクを作成
 RUN php artisan storage:link
-# PHPのアップロード制限を 2MB -> 20MB に引き上げる
-RUN echo "upload_max_filesize=20M" > /usr/local/etc/php/conf.d/uploads.ini \
-    && echo "post_max_size=20M" >> /usr/local/etc/php/conf.d/uploads.ini
 
-RUN mkdir -p public/assets_content && chmod -R 777 public/assets_content
-
-CMD php artisan migrate --force && php -S 0.0.0.0:${PORT:-80} -t public public/index.php
+# 起動コマンド（マイグレーションをしてから起動）
+CMD php artisan migrate --force && php -S 0.0.0.0:${PORT:-80} -t public

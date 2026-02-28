@@ -123,9 +123,9 @@ class BandController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('assets_content'), $fileName);
+            $file->move(public_path('bands'), $fileName);
             
-            $data['image_path'] = 'assets_content/' . $fileName;
+            $data['image_path'] = 'bands/' . $fileName;
         }
 
         // 5. データベースに保存（$validated ではなく、加工済みの $data を渡す）
@@ -153,7 +153,7 @@ class BandController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'name_kana' => 'required|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             // ...他...
         ]);
 
@@ -168,9 +168,9 @@ class BandController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('assets_content'), $fileName);
+            $file->move(public_path('bands'), $fileName);
             
-            $data['image_path'] = 'assets_content/' . $fileName;
+            $data['image_path'] = 'bands/' . $fileName;
         }
 
         // 5. 更新（$fillableにyoutube_urlsがあればこれでOK）
