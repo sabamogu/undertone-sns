@@ -45,10 +45,12 @@
                     <input type="date" name="formed_at" value="{{ $band->formed_at }}" class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none" style="color-scheme: dark;">
                 </div>
             </div>
+                {{--画像表示部分。一旦隠す
                 <div>
                     <label class="text-white block text-sm font-medium mb-2">バンドロゴ / 写真</label>
                     <input type="file" name="image" class="w-full bg-gray-800 text-white border border-gray-700 rounded-lg p-3 text-white focus:border-indigo-500 outline-none">
                 </div>
+               --}} 
                 <div>
                     <label class="text-white block text-sm font-medium mb-2">YouTube動画ID</label>
                     

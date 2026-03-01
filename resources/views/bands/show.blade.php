@@ -45,7 +45,7 @@
             @else
                 <div class="mb-8">
                     <a href="{{ route('bands.propose-edit', $band) }}" class="inline-block bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-6 rounded-full transition shadow-lg">
-                        ✨ このバンドの情報を修正する
+                        ✨ このバンド情報の修正を提案する
                     </a>
                 </div>
             @endcan
@@ -63,7 +63,7 @@
             @endif--}}
 
 
-            
+
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-white mix-blend-defference mt-4 text-4xl font-bold">{{ $band->name }}</h1>
                 <span class="bg-indigo-600 px-3 py-1 rounded-full text-sm">{{ $band->genre }}</span>
