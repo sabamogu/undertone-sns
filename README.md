@@ -63,16 +63,22 @@
 【サイト画像（編集提案の流れ）】
 １，サイトトップ画面↓
 <img width="1158" height="901" alt="スクリーンショット 2026-02-26 075931" src="https://github.com/user-attachments/assets/e6b9cc90-4c91-4a27-bade-2e2940844726" />
+
 ２，バンド詳細画面（バンド登録者以外の表示）↓
 <img width="1694" height="898" alt="スクリーンショット 2026-03-01 150327" src="https://github.com/user-attachments/assets/a613f46a-9873-48ca-8e8e-d96a292cec7e" />
+
 ３，バンド修正提案画面（バンド登録者以外の表示）↓
 <img width="1677" height="913" alt="スクリーンショット 2026-03-01 150454" src="https://github.com/user-attachments/assets/20333d09-cbdc-4c0d-b8d8-a9ea7293ca9a" />
+
 ４，修正提案送信後の画面（バンド登録者以外の画面）↓
 <img width="1655" height="874" alt="スクリーンショット 2026-03-01 145550" src="https://github.com/user-attachments/assets/c78f2461-7539-4c0b-9c1a-261a4391237d" />
+
 ５，修正提案された画面（バンド登録者の画面）↓
 <img width="1633" height="902" alt="スクリーンショット 2026-03-01 145711" src="https://github.com/user-attachments/assets/ce5e60d9-401b-43ab-993d-baf1c5477bf2" />
+
 ６，提案承認後の画面（バンド登録者の画面）↓
 <img width="1676" height="869" alt="スクリーンショット 2026-03-01 145835" src="https://github.com/user-attachments/assets/c47bf8ee-ed5a-4553-bf3e-f9d2bf91c92c" />
+
 参考　プロフィール（faverite）画面↓
 <img width="1646" height="889" alt="スクリーンショット 2026-03-01 151252" src="https://github.com/user-attachments/assets/559b41f3-2118-45a9-a55c-b308bbba4464" />
 
