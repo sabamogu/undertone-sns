@@ -59,10 +59,11 @@
             @else
                 <div class="w-full h-48 bg-gray-700 flex items-center justify-center rounded-lg">
                     <span class="text-gray-500">No Image</span>
-                </div> --}}
+                </div> 
+            @endif--}}
 
 
-            @endif
+            
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-white mix-blend-defference mt-4 text-4xl font-bold">{{ $band->name }}</h1>
                 <span class="bg-indigo-600 px-3 py-1 rounded-full text-sm">{{ $band->genre }}</span>
