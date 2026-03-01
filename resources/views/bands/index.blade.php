@@ -6,6 +6,12 @@
         <h1 class="text-6xl font-bebas tracking-widest text-indigo-500">UNDER TONE</h1>
         <p class="text-gray-400 mt-2">あなたの知らない未知の音楽がここにある。<br>Uncover music you never knew existed.</p>
 
+        {{-- 送信成功メッセージの表示 --}}
+        @if (session('status'))
+            <div class="alert alert-success" style="font-size: 1.5rem; font-weight: bold; border: 3px solid #28a745;">
+                {{ session('status') }}
+            </div>
+        @endif
         <div class="mt-8 mb-10 p-8 bg-gray-800/50 border border-gray-700 rounded-2xl shadow-xl max-w-2xl mx-auto text-left">
             <h2 class="text-xl text-indigo-400 mb-4 flex items-center italic">
                 About Under Tone
@@ -87,6 +93,12 @@
                 {{ $bands->appends(request()->query())->links() }}
             </div>
             <div class="mt-8 text-center">
+                {{-- 送信成功メッセージの表示 --}}
+                @if (session('status'))
+                    <div class="alert alert-success" style="font-size: 1.5rem; font-weight: bold; border: 3px solid #28a745;">
+                        {{ session('status') }}
+                    </div>
+                @endif
                 <a href="{{ route('bands.index') }}" class="inline-flex items-center text-gray-400 hover:text-white transition duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />

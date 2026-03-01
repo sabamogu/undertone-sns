@@ -52,12 +52,16 @@
         </div>
         
         <div class="mt-8 bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-700">
-            @if($band->image_path)
+
+
+            {{--画像表示部分。一旦隠す @if($band->image_path)
                 <img src="{{ asset('storage/' . $band->image_path) }}" alt="{{ $band->name }}" class="w-full rounded-lg">
             @else
                 <div class="w-full h-48 bg-gray-700 flex items-center justify-center rounded-lg">
                     <span class="text-gray-500">No Image</span>
-                </div>
+                </div> --}}
+
+
             @endif
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-white mix-blend-defference mt-4 text-4xl font-bold">{{ $band->name }}</h1>

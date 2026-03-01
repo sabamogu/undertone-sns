@@ -5,12 +5,12 @@
             <p class="text-gray-400 mt-2">お問い合わせはこちらから</p>
         </div>
 
-        {{-- 送信成功メッセージの表示 --}}
+        <!-- {{-- 送信成功メッセージの表示 --}}
         @if (session('status'))
             <div class="max-w-md mx-auto bg-green-600 text-white p-4 rounded-lg mb-8 text-center shadow-lg">
                 {{ session('status') }}
             </div>
-        @endif
+        @endif -->
 
         <form action="{{ route('contact.send') }}" method="POST" class="space-y-6">
             @csrf
