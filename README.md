@@ -1,59 +1,67 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+プロダクト「undertone」概要（URL：https://undertone-production.up.railway.app）
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+＃バンド情報共有プラットフォーム「undertone」
+音楽ファンが共同で情報を最新に保つことができる、Wiki形式のバンドデータベースです。
+「管理者アカウント：test@test.com / password:testtest」
+「テストユーザー：test1@test.com / password:testtest2」
 
-## About Laravel
+＃プロジェクトの概要
+「自分が好きなマイナーバンドの情報を広めたい」「古い情報を最新に更新したい」というファンの熱量を形にするためのプラットフォームです。
+情報の正確性を担保するため、独自の「編集提案・承認システム」を導入しています。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+＃作成に至った理由
+私個人の趣味のために作成しました。
+インディーズバンドなど、世間にあまり知られていないようなバンドの曲を聴くのが趣味なのですが、個人で探すのが大変で苦労していました。
+そのような界隈には、「今注目されているバンド一覧（25年秋ver.）」など、ある特定の期間についてのバンドをまとめた記事はあるものの、集積されたようなサイトは
+見当たりませんでした。
+そこで、「記事ではなくほかの人からの情報を集めればいいのでは」と思い、データベース型のアプリの開発に至りました。
+このアプリによって、バンド自身の集客や認知度の発展にも寄与できるのではと考えております。
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+＃主要機能
+    1. 編集提案・承認フロー（最注力機能）
+    単なるCRUD機能にとどまらず、情報の信頼性を維持するためのワークフローを実装しました。
+        ・提案機能：投稿者以外のユーザーが、既存データの修正案を送信できます。
+        ・比較・承認機能：投稿者は「現在のデータ」と「提案データ」を並列で比較し、ワンクリックで承認（データの自動上書き）または却下を選択できます。
+        ・整合性管理：提案中も元のデータは保持され、承認の瞬間まで公開情報は書き換わりません。
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+　　2. バンド管理機能
+    YouTube動画の埋め込み表示、詳細な属性情報（活動地域、結成日等）の管理。
+    
+　　3. お気に入り機能
+    非同期（またはリダイレクト）によるお気に入り登録。
 
-## Learning Laravel
+＃使用技術
+バックエンド：       　Laravel 11 (PHP 8.x)
+フロントエンド：       Tailwind CSS, Blade
+インフラストラクチャー：Docker / Laravel Sail
+データベース：　       MySQL 8.0
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+＃データベース設計
+主に以下のテーブル構成でリレーションを構築しています。
+    users：　　　　 ユーザー管理
+    bands：　　　　 バンド基本情報
+    edit_requests：編集提案データ（bandsテーブルと1対多）
+    favorites：    お気に入り管理（中間テーブル）
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+＃こだわったポイント
+　・ユーザー体験（UX）：ログイン画面からサイト画面まで、ユーザーの視覚に配慮した色味で作成し、目が疲れにくい表示にしました。
+ 　　　　　　　　　　　 また、投稿者本人がログインした際、未確認の提案があることを知らせる「通知バッジ」を詳細画面に実装し、
+                     アクションを促す工夫をしました。
+　・データ設計：edit_requestsテーブルをbandsテーブルと分離させることで、承認前のデータが本番データに混入しないよう設計しました。
 
-## Laravel Sponsors
+＃今後の実装予定
+・バンド画像表示機能
+・未確認の提案を知らせる「通知バッジ」をプロフィール画面に表示させる
+・承認時の通知機能（メールまたはサイト内通知）
+・編集履歴（ログ）の閲覧機能
+・各バンドにコメントできる機能
+・いいねランキング、コメント数ランキング
+・サイトトップ画面に、過去１週間以内に新規で登録されたバンドを表示する機能
+・サイトトップ画面に、過去一週間以内にメジャーデビューしたバンドを表示する機能（１週間後、削除別リストに掲載）
+・バンドメンバー登録機能
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+<img width="1158" height="901" alt="スクリーンショット 2026-02-26 075931" src="https://github.com/user-attachments/assets/e6b9cc90-4c91-4a27-bade-2e2940844726" />
 
-### Premium Partners
+<img width="1257" height="908" alt="スクリーンショット 2026-02-26 075737" src="https://github.com/user-attachments/assets/b76d35c0-3802-44bb-884d-b7ab09b9ec30" />
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
