@@ -8,7 +8,7 @@
 
         {{-- 送信成功メッセージの表示 --}}
         @if (session('status'))
-            <div class="text-white alert alert-success" style="font-size: 1.5rem; font-weight: bold; border: 3px solid #28a745;">
+            <div class="max-w-md mx-auto bg-green-600 text-white p-4 rounded-lg mb-8 text-center shadow-lg">
                 {{ session('status') }}
             </div>
         @endif
@@ -95,7 +95,7 @@
             <div class="mt-8 text-center">
                 {{-- 送信成功メッセージの表示 --}}
                 @if (session('status'))
-                    <div class="text-white alert alert-success" style="font-size: 1.5rem; font-weight: bold; border: 3px solid #28a745;">
+                    <div class="max-w-md mx-auto bg-green-600 text-white p-4 rounded-lg mb-8 text-center shadow-lg">
                         {{ session('status') }}
                     </div>
                 @endif
