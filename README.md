@@ -1,4 +1,4 @@
-**プロダクト「undertone」概要（URL：https://undertone-production.up.railway.app）**
+**プロダクト「undertone」概要 URL：https://undertone-production.up.railway.app**
 
 # バンド情報共有プラットフォーム「undertone」
 
