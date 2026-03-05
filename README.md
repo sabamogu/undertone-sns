@@ -5,10 +5,14 @@
 # バンド情報共有プラットフォーム「undertone」
 
 　　音楽ファンが共同で情報を最新に保つことができる、Wiki形式のバンドデータベースです。
-
+  
 　　「管理者アカウント：test@test.com / password:testtest」
 
 　　「テストユーザー：test1@test.com / password:testtest2」
+
+  ## システム構成図
+
+![システム構成図](system-architecture-undertone.jpg)
 
 ## プロジェクトの概要
 　　
