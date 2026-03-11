@@ -67,7 +67,7 @@
 
 ## 使用技術
 
-　　**バックエンド**：Laravel 11 (PHP 8.x)
+　　**バックエンド**：Laravel 11 (PHP 8.4)
 
 　　**フロントエンド**：Tailwind CSS, Blade
 
