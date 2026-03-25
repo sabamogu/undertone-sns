@@ -9,9 +9,7 @@ use App\Models\Band;
 
 // 1. トップページ（アクセスしたら一覧へ）
 Route::get('/', function () {
-    dd(Route::current()->gatherMiddleware());
-    // return redirect()->route('bands.index');
-    return "デバッグ中...";
+    return redirect()->route('bands.index');
 });
 
 // 2. ログイン後のリダイレクト先として 'dashboard' を定義しておく
@@ -20,7 +18,10 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 // 3. 全公開ルート（ログインしてなくても見れる）
-Route::get('/bands', [BandController::class, 'index'])->name('bands.index');
+// Route::get('/bands', [BandController::class, 'index'])->name('bands.index');
+Route::get('/bands', function () {
+    dd(Route::current()->gatherMiddleware());
+})->name('bands.index');
 
 // 4. 認証が必要なルート
 Route::middleware('auth')->group(function () {
@@ -102,8 +103,3 @@ Route::get('/bands/{band}/edit-requests', [App\Http\Controllers\EditRequestContr
 Route::post('/edit-requests/{editRequest}/approve', [App\Http\Controllers\EditRequestController::class, 'approve'])->name('edit-requests.approve');
 Route::post('/edit-requests/{editRequest}/reject', [App\Http\Controllers\EditRequestController::class, 'reject'])->name('edit-requests.reject');
 require __DIR__.'/auth.php';
-Route::get('/', function () {
-    dd(Route::current()->gatherMiddleware());
-    // return redirect()->route('bands.index');
-    return "デバッグ中...";
-});
