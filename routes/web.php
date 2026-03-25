@@ -18,10 +18,7 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 // 3. 全公開ルート（ログインしてなくても見れる）
-// Route::get('/bands', [BandController::class, 'index'])->name('bands.index');
-Route::get('/bands', function () {
-    dd(Route::current()->gatherMiddleware());
-})->name('bands.index');
+Route::get('/bands', [BandController::class, 'index'])->name('bands.index');
 
 // 4. 認証が必要なルート
 Route::middleware('auth')->group(function () {
