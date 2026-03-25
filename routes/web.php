@@ -102,3 +102,8 @@ Route::get('/bands/{band}/edit-requests', [App\Http\Controllers\EditRequestContr
 Route::post('/edit-requests/{editRequest}/approve', [App\Http\Controllers\EditRequestController::class, 'approve'])->name('edit-requests.approve');
 Route::post('/edit-requests/{editRequest}/reject', [App\Http\Controllers\EditRequestController::class, 'reject'])->name('edit-requests.reject');
 require __DIR__.'/auth.php';
+Route::get('/', function () {
+    dd(Route::current()->gatherMiddleware());
+    // return redirect()->route('bands.index');
+    return "デバッグ中...";
+});
