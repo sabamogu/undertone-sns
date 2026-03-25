@@ -9,6 +9,7 @@ use App\Models\Band;
 
 // 1. トップページ（アクセスしたら一覧へ）
 Route::get('/', function () {
+    dump(Route::current()->gatherMiddleware());
     return redirect()->route('bands.index');
 });
 
