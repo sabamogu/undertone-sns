@@ -10,7 +10,8 @@ use App\Models\Band;
 // 1. トップページ（アクセスしたら一覧へ）
 Route::get('/', function () {
     dd(Route::current()->gatherMiddleware());
-    return redirect()->route('bands.index');
+    // return redirect()->route('bands.index');
+    return "デバッグ中...";
 });
 
 // 2. ログイン後のリダイレクト先として 'dashboard' を定義しておく
