@@ -78,29 +78,29 @@
 
 ## 使用技術
 
-　　**バックエンド**：Laravel 12 (PHP 8.4)
+　　- **バックエンド**：Laravel 12 (PHP 8.4)
 
-　　**フロントエンド**：Javascript:Alpine.js, CSSフレームワーク：Tailwind CSS, 
+　　- **フロントエンド**：Javascript:Alpine.js, CSSフレームワーク：Tailwind CSS, 
   
   　　ビルドツール：Vite/Laravel Vite Plugin, HTTPクライアント:Axios
 
-　　**インフラストラクチャー**：プラットフォーム：Railway, デプロイ環境:Docker, 
+　　- **インフラストラクチャー**：プラットフォーム：Railway, デプロイ環境:Docker, 
   
   　　CI/CD:GitHub連携による自動デプロイ
 
-　　**データベース**：MySQL 8.4.8, ORM:Eloquent(Laravel標準), 開発ツール:Adminer
+　　- **データベース**：MySQL 8.4.8, ORM:Eloquent(Laravel標準), 開発ツール:Adminer
 
 ## データベース設計
 
 　　主に以下のテーブル構成でリレーションを構築しています。
 
-　　**users**：ユーザー管理
+　　- **users**：ユーザー管理
 
-　　**bands**：バンド基本情報
+　　- **bands**：バンド基本情報
     
-　　**edit_requests**：編集提案データ（bandsテーブルと1対多）
+　　- **edit_requests**：編集提案データ（bandsテーブルと1対多）
     
-　　**favorites**：お気に入り管理（中間テーブル）
+　　- **favorites**：お気に入り管理（中間テーブル）
 
   データの整合性を保ち、効率的なリレーションを実現するために以下の設計を行いました。
 
