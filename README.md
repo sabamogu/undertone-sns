@@ -62,7 +62,9 @@
 
 　　- 提案機能：投稿者以外のユーザーが、既存データの修正案を送信できます。
 
-　　- 比較・承認機能：投稿者は「現在のデータ」と「提案データ」を並列で比較し、ワンクリックで承認（データの自動上書き）または却下を選択できます。
+　　- 比較・承認機能：投稿者は「現在のデータ」と「提案データ」を並列で比較し、ワンクリックで承認
+  
+　　（データの自動上書き）または却下を選択できます。
        
 　　- 整合性管理：提案中も元のデータは保持され、承認の瞬間まで公開情報は書き換わりません。
 
@@ -78,9 +80,13 @@
 
 　　**バックエンド**：Laravel 12 (PHP 8.4)
 
-　　**フロントエンド**：Javascript:Alpine.js, CSSフレームワーク：Tailwind CSS, ビルドツール：Vite/Laravel Vite Plugin, HTTPクライアント:Axios
+　　**フロントエンド**：Javascript:Alpine.js, CSSフレームワーク：Tailwind CSS, 
+  
+  　　ビルドツール：Vite/Laravel Vite Plugin, HTTPクライアント:Axios
 
-　　**インフラストラクチャー**：プラットフォーム：Railway, デプロイ環境:Docker, CI/CD:GitHub連携による自動デプロイ
+　　**インフラストラクチャー**：プラットフォーム：Railway, デプロイ環境:Docker, 
+  
+  　　CI/CD:GitHub連携による自動デプロイ
 
 　　**データベース**：MySQL 8.4.8, ORM:Eloquent(Laravel標準), 開発ツール:Adminer
 
