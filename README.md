@@ -12,7 +12,8 @@
 
   ## システム構成図
 
-![システム構成図](./images/system-architecture-undertone.jpg)
+![システム構成図](./images/system-architecture-undertone.png)
+
 
 ## プロジェクトの概要
 　　
