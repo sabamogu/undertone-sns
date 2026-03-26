@@ -18,7 +18,7 @@
 
 - Dockerコンテナを利用することで開発環境と本番環境の差異をなくし、安定した動作環境を
 
-構築しました。
+　構築しました。
 
 ![システム構成図](./images/system-architecture-undertone.png)
 
