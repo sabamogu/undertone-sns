@@ -69,11 +69,11 @@
 
 　　**バックエンド**：Laravel 12 (PHP 8.4)
 
-　　**フロントエンド**：Tailwind CSS, Blade
+　　**フロントエンド**：Javascript:Alpine.js, CSSフレームワーク：Tailwind CSS, ビルドツール：Vite/Laravel Vite Plugin, HTTPクライアント:Axios
 
-　　**インフラストラクチャー**：Docker / Laravel Sail
+　　**インフラストラクチャー**：プラットフォーム：Railway, デプロイ環境:Docker, CI/CD:GitHub連携による自動デプロイ
 
-　　**データベース**：MySQL 8.0
+　　**データベース**：MySQL 8.4.8, ORM:Eloquent(Laravel標準), 開発ツール:Adminer
 
 ## データベース設計
 
