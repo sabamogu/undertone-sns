@@ -1,11 +1,10 @@
-# 🚀 最新版のPHP 8.4 を使用
+# 最新版のPHP 8.4 を使用
 FROM php:8.4-cli
 
-# --- 🔥 Node.jsをインストールする処理を追加 ---
+# Node.jsをインストールする処理を追加 
 RUN apt-get update && apt-get install -y gnupg2
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get install -y nodejs
-# ----------------------------------------------
 
 # システム依存パッケージのインストール
 RUN apt-get update && apt-get install -y \
@@ -24,6 +23,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 COPY . .
+RUN npm install
+RUN npm run build
 
 # Laravelの依存パッケージをインストール
 RUN composer install --optimize-autoloader --no-dev
@@ -31,6 +32,5 @@ RUN composer install --optimize-autoloader --no-dev
 # パーミッション設定
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
 
-# 🚀 【重要】CMDを修正
-# インストールされたnpmを使ってビルドと起動を行います
-CMD npm install && npm run build && php artisan migrate --force && php -S 0.0.0.0:${PORT:-80} -t public
+# インストールされたnpmを使ってビルドと起動
+CMD php artisan migrate --force && php -S 0.0.0.0:${PORT:-80} -t public
