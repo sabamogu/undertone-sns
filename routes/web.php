@@ -71,8 +71,7 @@ Route::post('/bands/{band}/favorite', function (Band $band) {
 
 Route::get('/favorites', function () {
     $user = auth()->user();
-    
-    // お気に入りしたバンド（ページネーション付き）
+    // お気に入りしたバンド
     $favoriteBands = $user->favoriteBands()->latest('band_user.created_at')->paginate(10);
     
     // 自分が投稿したバンド

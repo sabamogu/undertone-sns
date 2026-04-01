@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     public function favoriteBands()
     {
-        // belongsToMany を使って、中間テーブル band_user を通じて Band と繋げます
+        //belongsToManyを使って、中間テーブルband_userを通じてBandと繋げる
         return $this->belongsToMany(Band::class)->withTimestamps();
     }
 }
