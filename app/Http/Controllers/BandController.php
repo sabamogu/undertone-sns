@@ -89,6 +89,7 @@ class BandController extends Controller
 
     public function show(\App\Models\Band $band)
     {
+        $band->load(['user', 'favoritedBy','editRequests']);
          // このバンドに対する「保留中(pending)」の提案があるか確認
         $editRequestCount = $band->editRequests()->where('status', 'pending')->count();
 

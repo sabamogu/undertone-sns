@@ -7,22 +7,22 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Band;
 
-// 1. トップページ（アクセスしたら一覧へ）
+//トップページ（アクセスしたら一覧へ）
 Route::get('/', function () {
     return redirect()->route('bands.index');
 });
 
-// 2. ログイン後のリダイレクト先として 'dashboard' を定義しておく
+//ログイン後のリダイレクト先にdashboardを定義しておく
 Route::get('/dashboard', function () {
     return redirect()->route('bands.index');
 })->name('dashboard');
 
-// 3. 全公開ルート（ログインしてなくても見れる）
+//全公開ルート（ログインしてなくても見れる）
 Route::get('/bands', [BandController::class, 'index'])->name('bands.index');
 
-// 4. 認証が必要なルート
+//認証が必要なルート
 Route::middleware('auth')->group(function () {
-    // プロフィール管理用のルート
+    // プロフィール管理用のルート（まだ未作成）
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update'); 
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -33,11 +33,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/bands/{band}', [BandController::class, 'update'])->name('bands.update');
     Route::delete('/bands/{band}', [BandController::class, 'destroy'])->name('bands.destroy');
 });
-
+//ここは誰でも見れるように認証範囲外（バンド詳細）
 Route::get('/bands/{band}', [BandController::class, 'show'])->name('bands.show'); 
 
 Route::post('/contact', function (Request $request) {
-    // 1. バリデーションを実行
+    //バリデーション
     $validator = Validator::make($request->all(), [
         'name'    => 'required|max:50',
         'email'   => 'required|email|max:255',
@@ -50,14 +50,14 @@ Route::post('/contact', function (Request $request) {
         'message.min'      => 'お問い合わせ内容は10文字以上で入力してください。',
     ]);
 
-    // 2. バリデーションに失敗した場合の処理
+    //バリデーションに失敗した場合の処理
     if ($validator->fails()) {
         return redirect(url()->previous() . '#contact')
-            ->withErrors($validator) // エラー内容を渡す
-            ->withInput();           // 入力内容を保持する（old関数用）
+            ->withErrors($validator) 
+            ->withInput(); 
     }
 
-    // 3. 成功した場合の処理（前回設定した通り）
+    //成功した場合の処理
     return redirect(url()->previous() . '#contact')
         ->with('status', '（デモ用）お問い合わせを送信しました！内容の確認とバリデーションに成功しました。');
 })->name('contact.send');

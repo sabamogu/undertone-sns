@@ -44,11 +44,11 @@ class Band extends Model
     }
 
     public function favoritedBy()
-{
-    return $this->belongsToMany(User::class)->withTimestamps();
-}
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
 
-    // すでにお気に入り済みか判定する便利なメソッドを追加しておきます
+    // すでにお気に入り済みか判定するメソッドを追加
     public function isFavoritedBy(?User $user): bool
     {
         if (!$user) return false;
