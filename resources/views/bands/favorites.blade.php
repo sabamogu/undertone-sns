@@ -23,7 +23,7 @@
                     </div>
                 @endforeach
             </div>
-            <div class="mb-16 text-white">
+            <div class="mt-8 mb-16 text-white">
                 {{ $favoriteBands->appends(['my_page' => $myBands->currentPage()])->links() }}
             </div>
         @endif
@@ -48,7 +48,7 @@
                     </div>
                 @endforeach
             </div>
-            <div class="mb-16 text-white">
+            <div class="mt-8 mb-16 text-white">
                 {{ $myBands->appends(['favorite_page' => $favoriteBands->currentPage()])->links() }}
             </div>
         @endif
