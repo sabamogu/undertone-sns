@@ -29,7 +29,8 @@
 
             <div>
                 <p class="text-sm text-gray-700 leading-5 dark:text-gray-600">
-                    {!! __('Showing') !!}
+                    <span class="font-medium">{{ $paginator->total() }}</span>
+                    <!-- {!! __('results') !!} -->件中
                     @if ($paginator->firstItem())
                         <span class="font-medium">{{ $paginator->firstItem() }}</span>
                         <!-- {!! __('to') !!} -->～
@@ -38,8 +39,6 @@
                         {{ $paginator->count() }}
                     @endif
                     <!-- {!! __('of') !!} -->件を表示
-                    <span class="font-medium">{{ $paginator->total() }}</span>
-                    <!-- {!! __('results') !!} -->件中
                 </p>
             </div>
 
