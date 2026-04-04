@@ -32,14 +32,14 @@
                     {!! __('Showing') !!}
                     @if ($paginator->firstItem())
                         <span class="font-medium">{{ $paginator->firstItem() }}</span>
-                        {!! __('to') !!}
+                        <!-- {!! __('to') !!} -->～
                         <span class="font-medium">{{ $paginator->lastItem() }}</span>
                     @else
                         {{ $paginator->count() }}
                     @endif
-                    {!! __('of') !!}
+                    <!-- {!! __('of') !!} -->件を表示
                     <span class="font-medium">{{ $paginator->total() }}</span>
-                    {!! __('results') !!}
+                    <!-- {!! __('results') !!} -->件中
                 </p>
             </div>
 
