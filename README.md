@@ -81,26 +81,18 @@
 - **File System**: Linux Native File System (`/home/...`)
 　Windows側（/mnt/c/）を経由せず、Linux領域内で完結させることで、高速なファイルI/Oと安定した動作を実現しています。
 
+### Technology Stack
+- **バックエンド**: PHP 8.4 / Laravel 12
+- **フロントエンド**: JavaScript (Alpine.js), Tailwind CSS
+- **データベース**: MySQL 8.4 (Eloquent ORM)
+- **インフラ**: Railway, Docker, GitHub Actions (CI/CD)
+
 ### Tooling & Editor
-- **VS Code (Remote - WSL拡張機能)**:
- WSL2上のファイルシステムへ直接アクセスし、Linuxネイティブな環境で開発・デバッグを完結させています。
-- **Adminer**: データベース（MySQL）の管理・操作に使用。
-- **Postman**: APIの挙動確認およびレスポンスのテストに使用。
-- **Git**: バージョン管理およびGitHubへのデプロイに使用。
-
-
-
-- **バックエンド**：Laravel 12 (PHP 8.4)
-
-- **フロントエンド**：Javascript:Alpine.js, CSSフレームワーク：Tailwind CSS, 
-  
-  　　ビルドツール：Vite/Laravel Vite Plugin, HTTPクライアント:Axios
-
-- **インフラストラクチャー**：プラットフォーム：Railway, デプロイ環境:Docker, 
-  
-  　　CI/CD:GitHub連携による自動デプロイ
-
-- **データベース**：MySQL 8.4.8, ORM:Eloquent(Laravel標準), 開発ツール:Adminer
+- **Editor**: VS Code (Remote - WSL 拡張機能)
+- **HTTP Client**: Axios, Postman
+- **Build Tool**: Vite (Laravel Vite Plugin)
+- **Database Management**: Adminer
+- **Version Control**: Git / GitHub
 
 ## データベース設計
 
