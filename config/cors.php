@@ -14,29 +14,29 @@ return [
     | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
     |
     */
-    // 1. 許可するパス（URLのパターン）
+    //許可するパス（URLのパターン）
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
-    // 2. 許可するメソッド（GET, POST, etc.）
+    //許可するメソッド（GET, POST, etc.）
     'allowed_methods' => ['*'],
 
-    // 3. 許可するオリジン（アクセス元のドメイン）
+    //許可するオリジン（アクセス元のドメイン）
     'allowed_origins' => [
-    'https://undertone-production.up.railway.app',  // 本番の自分のドメイン
-    'http://localhost',     // ローカル開発用（これを忘れると自分のPCで動かなくなる）
+    'https://undertone-production.up.railway.app',  //本番の自分のドメイン
+    'http://localhost',     //ローカル開発用（これを忘れると自分のPCで動かなくなる）
     ],
     
     'allowed_origins_patterns' => [],
 
-    // 4. 許可するヘッダー（Content-Type など）
+    //許可するヘッダー（Content-Type など）
     'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
 
-    // 5. キャッシュの有効期限
+    //キャッシュの有効期限
     'max_age' => 0,
 
-    // 6. クッキーや認証情報の送信を許可するか
+    //クッキーや認証情報の送信を許可するか
     'supports_credentials' => false,
 
 ];
