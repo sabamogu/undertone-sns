@@ -72,7 +72,21 @@
 
 　　非同期（またはリダイレクト）によるお気に入り登録。
 
-## 使用技術
+## 開発環境・使用技術
+
+### 開発インフラ
+- **OS**: Windows 11 + WSL2 (Ubuntu 24.04 LTS)
+  本番環境（Linux）との差異を最小限に抑えるため、WSL2上のLinuxカーネルで動作させています。
+ 
+- **File System**: Linux Native File System (`/home/...`)
+　Windows側（/mnt/c/）を経由せず、Linux領域内で完結させることで、高速なファイルI/Oと安定した動作を実現しています。
+
+### Tooling & Editor
+- **VS Code (Remote - WSL拡張機能)**:
+ WSL2上のファイルシステムへ直接アクセスし、Linuxネイティブな環境で開発・デバッグを完結させています。
+- **Adminer**: データベース（MySQL）の管理・操作に使用。
+- **Postman**: APIの挙動確認およびレスポンスのテストに使用。
+- **Git**: バージョン管理およびGitHubへのデプロイに使用。
 
 - **バックエンド**：Laravel 12 (PHP 8.4)
 
