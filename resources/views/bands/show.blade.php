@@ -15,7 +15,6 @@
                 @if($editRequestCount > 0)
                     <div class="bg-indigo-900/80 border border-indigo-500 text-white p-4 rounded-xl mb-4 mr-4 flex justify-between items-center shadow-lg">
                         <div class="flex items-center space-x-3">
-                            <span class="text-2xl">📢</span>
                             <div>
                                 <span class="font-bold block">編集提案が {{ $editRequestCount }} 件届いています！</span>
                                 <p class="text-xs text-indigo-300">内容を確認して承認・却下を選択してください。</p>
