@@ -5,9 +5,9 @@
 # バンド情報共有プラットフォーム「undertone」
 　　音楽ファンが共同で情報を最新に保つことができる、Wiki形式のバンドデータベースです。
   
-　　「管理者アカウント：test@test.com / password:testtest」
+　　「管理者アカウント：test@example.com / password:testtest」
   
-　　「テストユーザー：test1@test.com / password:testtest2」
+　　「テストユーザー：test1@example.com / password:testtest1」
 
   ## システム構成図
 - Railwayを活用し、GitHubへのプルリクエスト・マージをトリガーとした自動デプロイ（CD)を実現しています。
