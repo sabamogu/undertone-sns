@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,6 +24,7 @@ class BandFactory extends Factory
             'area' => $this->faker->city(),
             'youtube_urls' => ['khE2qYFHAk8', 'Mfy1HCD2sTk'], // 適当なID
             'image_path' => null,
+            'user_id' => User::inRandomOrder()->first()->id ?? 1,
             ];
     }
 }
